@@ -130,7 +130,11 @@ app.post("/api/product/add", requireAuth, asyncRoute(async (req, res) => {
     price: Number(price),
   });
 
-  res.status(201).json({ data: product, message: "Product added successfully" });
+  res.status(202).json({
+    message: `${product.title} added successfully`,
+    productName: product.title,
+    data: product,
+  });
 }));
 
 app.get("/api/product/all", asyncRoute(async (req, res) => res.json({ data: await Product.find().sort({ createdAt: -1 }) })));
