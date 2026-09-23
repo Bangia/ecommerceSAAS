@@ -13,7 +13,7 @@ import { add_to_compare } from '@/redux/features/compareSlice';
 import { handleModalClose } from '@/redux/features/productModalSlice';
 
 const DetailsWrapper = ({ productItem, handleImageActive, activeImg, detailsBottom = false }) => {
-  const { sku, img, title, imageURLs, category, description, discount, price, status, reviews, tags, offerDate } = productItem || {};
+  const { sku, img, title, imageURLs = [], category, description = "", discount, price, status, reviews, tags = [], offerDate } = productItem || {};
   const [ratingVal, setRatingVal] = useState(0);
   const [textMore, setTextMore] = useState(false);
   const dispatch = useDispatch()
@@ -47,7 +47,7 @@ const DetailsWrapper = ({ productItem, handleImageActive, activeImg, detailsBott
   return (
     <div className="tp-product-details-wrapper">
       <div className="tp-product-details-category">
-        <span>{category.name}</span>
+        <span>{category?.name || category || "Products"}</span>
       </div>
       <h3 className="tp-product-details-title">{title}</h3>
 
@@ -65,7 +65,7 @@ const DetailsWrapper = ({ productItem, handleImageActive, activeImg, detailsBott
           </div>
         </div>
       </div>
-      <p>{textMore ? description : `${description.substring(0, 100)}...`}
+      <p>{textMore ? description : `${description.substring(0, 100)}${description.length > 100 ? "..." : ""}`}
         <span onClick={() => setTextMore(!textMore)}>{textMore ? 'See less' : 'See more'}</span>
       </p>
 
