@@ -119,6 +119,20 @@ app.put("/api/user/update-user/:id", requireAuth, asyncRoute(async (req, res) =>
   res.json({ data: { user: publicUser(user), token: createToken(user) } });
 }));
 
+app.post("/api/product/add", requireAuth, asyncRoute(async (req, res) => {
+  const { title, slug, price, type } = req.body;
+  if (!title || !slug || price === undefined || !type) {
+    return res.status(400).json({ error: "title, slug, price, and type are required" });
+  }
+
+  const product = await Product.create({
+    ...req.body,
+    price: Number(price),
+  });
+
+  res.status(201).json({ data: product, message: "Product added successfully" });
+}));
+
 app.get("/api/product/all", asyncRoute(async (req, res) => res.json({ data: await Product.find().sort({ createdAt: -1 }) })));
 app.get("/api/product/offer", asyncRoute(async (req, res) => res.json({ data: await Product.find({ discount: { $gt: 0 }, ...(req.query.type ? { type: req.query.type } : {}) }) })));
 app.get("/api/product/popular/:type", asyncRoute(async (req, res) => res.json({ data: await Product.find({ type: req.params.type }).sort({ rating: -1 }).limit(12) })));
