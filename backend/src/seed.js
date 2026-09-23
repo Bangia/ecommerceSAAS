@@ -46,7 +46,9 @@ const products = [
   },
 ];
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/shofy")
+mongoose.connect(process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/shofy", {
+  serverSelectionTimeoutMS: 5000,
+})
   .then(async () => {
     await Product.deleteMany({});
     await Product.insertMany(products);
@@ -54,6 +56,7 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/shofy")
     await mongoose.disconnect();
   })
   .catch((error) => {
-    console.error(error);
+    console.error(`MongoDB connection failed: ${error.message}`);
+    console.error("Start MongoDB or set MONGODB_URI in backend/.env, then run npm run seed again.");
     process.exit(1);
   });
