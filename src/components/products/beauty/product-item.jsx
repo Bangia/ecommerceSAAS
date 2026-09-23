@@ -9,7 +9,7 @@ import { add_cart_product } from "@/redux/features/cartSlice";
 import { add_to_wishlist } from "@/redux/features/wishlist-slice";
 
 const ProductItem = ({ product, prdCenter = false,primary_style=false }) => {
-  const { _id, img, title, discount, price, tags,status } = product || {};
+  const { _id, img, title, discount, price, tags = [], status } = product || {};
   const { cart_products } = useSelector((state) => state.cart);
   const { wishlist } = useSelector((state) => state.wishlist);
   const isAddedToCart = cart_products.some((prd) => prd._id === _id);
@@ -99,7 +99,7 @@ const ProductItem = ({ product, prdCenter = false,primary_style=false }) => {
       </div>
       <div className="tp-product-content-3">
         <div className="tp-product-tag-3">
-          <span>{tags[1]}</span>
+          <span>{tags[1] || tags[0] || "Beauty"}</span>
         </div>
         <h3 className="tp-product-title-3">
           <Link href={`/product-details/${_id}`}>{title}</Link>
