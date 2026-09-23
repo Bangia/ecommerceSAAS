@@ -170,7 +170,27 @@ app.get("/api/coupon", asyncRoute(async (req, res) => res.json({ data: await Cou
 
 app.post("/api/order/saveOrder", requireAuth, asyncRoute(async (req, res) => {
   const body = req.body || {};
-  const order = await Order.create({ ...body, user: req.user._id, totalAmount: body.totalAmount || body.amount || 0 });
+  const status = String(body.status || "pending").toLowerCase();
+  const allowedStatuses = ["pending", "processing", "delivered", "cancelled"];
+  const order = await Order.create({
+    user: req.user._id,
+    products: body.products || body.cart || [],
+    shipping_info: body.shipping_info || {
+      name: body.name,
+      address: body.address,
+      contact: body.contact,
+      email: body.email,
+      city: body.city,
+      country: body.country,
+      zipCode: body.zipCode,
+      shippingOption: body.shippingOption,
+      orderNote: body.orderNote,
+    },
+    payment: body.payment || body.paymentMethod || "COD",
+    paymentIntent: body.paymentIntent,
+    totalAmount: Number(body.totalAmount || body.amount || 0),
+    status: allowedStatuses.includes(status) ? status : "pending",
+  });
   res.status(201).json({ data: { order }, order, message: "Order saved" });
 }));
 app.get("/api/user-order", requireAuth, asyncRoute(async (req, res) => res.json({ data: await Order.find({ user: req.user._id }).sort({ createdAt: -1 }) })));
@@ -192,6 +212,7 @@ app.use((error, req, res, next) => {
   console.error(error);
   if (error.name === "JsonWebTokenError" || error.name === "TokenExpiredError") return res.status(401).json({ error: "Invalid or expired token" });
   if (error.code === 11000) return res.status(409).json({ error: "A record with that value already exists" });
+  if (error.name === "ValidationError" || error.name === "CastError") return res.status(400).json({ error: error.message });
   res.status(500).json({ error: "Internal server error" });
 });
 
