@@ -14,6 +14,8 @@ import { handleModalClose } from '@/redux/features/productModalSlice';
 
 const DetailsWrapper = ({ productItem, handleImageActive, activeImg, detailsBottom = false }) => {
   const { sku, img, title, imageURLs = [], category, description = "", discount, price, status, reviews, tags = [], offerDate } = productItem || {};
+  const priceValue = Number(price || 0);
+  const discountValue = Number(discount || 0);
   const [ratingVal, setRatingVal] = useState(0);
   const [textMore, setTextMore] = useState(false);
   const dispatch = useDispatch()
@@ -71,15 +73,15 @@ const DetailsWrapper = ({ productItem, handleImageActive, activeImg, detailsBott
 
       {/* price */}
       <div className="tp-product-details-price-wrapper mb-20">
-        {discount > 0 ? (
+        {discountValue > 0 ? (
           <>
-            <span className="tp-product-details-price old-price">${price}</span>
+            <span className="tp-product-details-price old-price">${priceValue.toFixed(2)}</span>
             <span className="tp-product-details-price new-price">
-              {" "}${(Number(price) - (Number(price) * Number(discount)) / 100).toFixed(2)}
+              {" "}${(priceValue - (priceValue * discountValue) / 100).toFixed(2)}
             </span>
           </>
         ) : (
-          <span className="tp-product-details-price new-price">${price.toFixed(2)}</span>
+          <span className="tp-product-details-price new-price">${priceValue.toFixed(2)}</span>
         )}
       </div>
 
