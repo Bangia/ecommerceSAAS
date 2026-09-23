@@ -3,7 +3,7 @@ import ReviewForm from '../forms/review-form';
 import ReviewItem from './review-item';
 
 const DetailsTabNav = ({ product }) => {
-  const {_id, description, additionalInformation, reviews } = product || {};
+  const {_id, description, additionalInformation, reviews = [] } = product || {};
   const activeRef = useRef(null)
   const marker = useRef(null);
   // handleActive
