@@ -53,3 +53,14 @@ Content-Type: application/json
 ```
 
 The frontend can call the same endpoint with `useAddProductMutation` from `src/redux/features/productApi.js`.
+
+## My orders
+
+Get all order details for the authenticated user:
+
+```http
+GET http://localhost:5000/api/my-orders
+Authorization: Bearer YOUR_TOKEN
+```
+
+The response includes `data`, `orders`, and `count`.

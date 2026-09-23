@@ -194,6 +194,10 @@ app.post("/api/order/saveOrder", requireAuth, asyncRoute(async (req, res) => {
   res.status(201).json({ data: { order }, order, message: "Order saved" });
 }));
 app.get("/api/user-order", requireAuth, asyncRoute(async (req, res) => res.json({ data: await Order.find({ user: req.user._id }).sort({ createdAt: -1 }) })));
+app.get("/api/my-orders", requireAuth, asyncRoute(async (req, res) => {
+  const orders = await Order.find({ user: req.user._id }).sort({ createdAt: -1 });
+  res.json({ data: orders, orders, count: orders.length });
+}));
 app.get("/api/user-order/:id", requireAuth, asyncRoute(async (req, res) => {
   const order = await Order.findOne({ _id: req.params.id, user: req.user._id });
   if (!order) return res.status(404).json({ error: "Order not found" });

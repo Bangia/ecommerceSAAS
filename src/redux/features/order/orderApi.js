@@ -50,6 +50,11 @@ export const authApi = apiSlice.injectEndpoints({
       providesTags:["UserOrders"],
       keepUnusedDataFor: 600,
     }),
+    getMyOrders: builder.query({
+      query: () => `/api/my-orders`,
+      providesTags:["UserOrders"],
+      keepUnusedDataFor: 600,
+    }),
     // getUserOrders
     getUserOrderById: builder.query({
       query: (id) => `/api/user-order/${id}`,
@@ -64,4 +69,5 @@ export const {
   useSaveOrderMutation,
   useGetUserOrderByIdQuery,
   useGetUserOrdersQuery,
+  useGetMyOrdersQuery,
 } = authApi;
