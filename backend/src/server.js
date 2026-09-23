@@ -132,7 +132,11 @@ app.get("/api/product/related-product/:id", asyncRoute(async (req, res) => {
 app.get("/api/product/:type", asyncRoute(async (req, res) => {
   const filter = { type: req.params.type };
   if (req.query.category) filter.category = req.query.category;
-  res.json({ data: await Product.find(filter) });
+  if (req.query.new === "true") filter.createdAt = { $exists: true };
+  if (req.query.featured === "true") filter.featured = true;
+  const sort = req.query.new === "true" ? { createdAt: -1 } : req.query.topSellers === "true" ? { sales: -1 } : { createdAt: -1 };
+  const limit = Math.min(Math.max(Number(req.query.limit) || 24, 1), 100);
+  res.json({ data: await Product.find(filter).sort(sort).limit(limit) });
 }));
 
 app.post("/api/review/add", requireAuth, asyncRoute(async (req, res) => {
