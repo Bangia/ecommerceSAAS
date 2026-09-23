@@ -26,7 +26,19 @@ const SingleOrder = ({ params }) => {
     content = <ErrorMsg msg="There was an error" />;
   }
   if (!isLoading && !isError) {
-    const { name, country, city, contact, invoice, createdAt, cart, shippingCost, discount, totalAmount,paymentMethod} = order.order;
+    const savedOrder = order?.order || order?.data?.order || order?.data || order;
+    const shippingInfo = savedOrder?.shipping_info || {};
+    const name = savedOrder?.name || shippingInfo.name || "Customer";
+    const country = savedOrder?.country || shippingInfo.country || "";
+    const city = savedOrder?.city || shippingInfo.city || "";
+    const contact = savedOrder?.contact || shippingInfo.contact || "";
+    const invoice = savedOrder?.invoice || savedOrder?._id;
+    const createdAt = savedOrder?.createdAt;
+    const cart = savedOrder?.cart || savedOrder?.products || [];
+    const shippingCost = Number(savedOrder?.shippingCost || 0);
+    const discount = Number(savedOrder?.discount || 0);
+    const totalAmount = Number(savedOrder?.totalAmount || 0);
+    const paymentMethod = savedOrder?.paymentMethod || savedOrder?.payment || "COD";
     content = (
       <>
         <section className="invoice__area pt-120 pb-120">
