@@ -6,7 +6,8 @@ import dynamic from 'next/dynamic';
 import { Rating } from 'react-simple-star-rating';
 // internal
 import { ArrowRightLong, PrevLongArrTwo } from '@/svg';
-import { fashion_testi_data } from '@/data/testimonial-data';
+import { useGetAllTestimonialsQuery } from '@/redux/features/testimonialApi';
+import user_1 from '@assets/img/users/user-1.jpg';
 
 // slider setting
 const slider_setting = {
@@ -23,6 +24,9 @@ const slider_setting = {
 }
 
 const FashionTestimonial = () => {
+  const { data } = useGetAllTestimonialsQuery();
+  const testimonials = data?.data || [];
+
   return (
     <>
       <section className="tp-testimonial-area grey-bg-7 pt-130 pb-135">
@@ -38,8 +42,8 @@ const FashionTestimonial = () => {
                   <div className="col-xl-8 col-lg-8 col-md-10">
 
                     <Swiper {...slider_setting} modules={[Navigation, Pagination]} className="tp-testimonial-slider-active swiper-container">
-                      {fashion_testi_data.map(item => (
-                        <SwiperSlide key={item.id} className="tp-testimonial-item text-center mb-20">
+                      {testimonials.map(item => (
+                        <SwiperSlide key={item._id} className="tp-testimonial-item text-center mb-20">
                           <div className="tp-testimonial-rating">
                             <span><Rating fillColor='#821F40' readonly={true} allowFraction size={20} initialValue={item.review}/></span>
                           </div>
@@ -49,7 +53,7 @@ const FashionTestimonial = () => {
                           <div className="tp-testimonial-user-wrapper d-flex align-items-center justify-content-center">
                             <div className="tp-testimonial-user d-flex align-items-center">
                               <div className="tp-testimonial-avater mr-10">
-                                <Image src={item.user} alt="user img" />
+                                <Image src={item.image || user_1} alt="user img" />
                               </div>
                               <div className="tp-testimonial-user-info tp-testimonial-user-translate">
                                 <h3 className="tp-testimonial-user-title">{item.name}</h3>

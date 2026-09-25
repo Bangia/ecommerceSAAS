@@ -9,7 +9,25 @@ export const productApi = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ["Products"],
+      invalidatesTags: [
+        "Products",
+        "ProductType",
+        "OfferProducts",
+        "PopularProducts",
+        "TopRatedProducts",
+      ],
+    }),
+    updateProduct: builder.mutation({
+      query: ({ id, ...data }) => ({
+        url: `/api/product/${id}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["Products", "ProductType", "OfferProducts", "PopularProducts", "TopRatedProducts"],
+    }),
+    deleteProduct: builder.mutation({
+      query: (id) => ({ url: `/api/product/${id}`, method: "DELETE" }),
+      invalidatesTags: ["Products", "ProductType", "OfferProducts", "PopularProducts", "TopRatedProducts"],
     }),
     getAllProducts: builder.query({
       query: () => `/api/product/all`,
@@ -52,6 +70,8 @@ export const productApi = apiSlice.injectEndpoints({
 
 export const {
   useAddProductMutation,
+  useUpdateProductMutation,
+  useDeleteProductMutation,
   useGetAllProductsQuery,
   useGetProductTypeQuery,
   useGetOfferProductsQuery,

@@ -154,6 +154,48 @@ const CheckoutOrderArea = ({ checkoutData }) => {
             })}
             onClick={() => setShowCard(false)}
             type="radio"
+            id="payu"
+            name="payment"
+            value="PayU"
+          />
+          <label htmlFor="payu">PayU Money (Test)</label>
+          <ErrorMsg msg={errors?.payment?.message} />
+        </div>
+        <div className="tp-checkout-payment-item">
+          <input
+            {...register(`payment`, {
+              required: `Payment Option is required!`,
+            })}
+            onClick={() => setShowCard(false)}
+            type="radio"
+            id="phonepe"
+            name="payment"
+            value="PhonePe"
+          />
+          <label htmlFor="phonepe">PhonePe (Test)</label>
+          <ErrorMsg msg={errors?.payment?.message} />
+        </div>
+        <div className="tp-checkout-payment-item">
+          <input
+            {...register(`payment`, {
+              required: `Payment Option is required!`,
+            })}
+            onClick={() => setShowCard(false)}
+            type="radio"
+            id="paytm"
+            name="payment"
+            value="Paytm"
+          />
+          <label htmlFor="paytm">Paytm (Test)</label>
+          <ErrorMsg msg={errors?.payment?.message} />
+        </div>
+        <div className="tp-checkout-payment-item">
+          <input
+            {...register(`payment`, {
+              required: `Payment Option is required!`,
+            })}
+            onClick={() => setShowCard(false)}
+            type="radio"
             id="cod"
             name="payment"
             value="COD"

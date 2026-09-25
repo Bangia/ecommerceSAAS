@@ -75,6 +75,22 @@ export const authApi = apiSlice.injectEndpoints({
         }
       },
     }),
+    adminLogin: builder.mutation({
+      query: (data) => ({
+        url: "/api/admin/login",
+        method: "POST",
+        body: data,
+      }),
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          const result = await queryFulfilled;
+          Cookies.set("userInfo", JSON.stringify({ accessToken: result.data.data.token, user: result.data.data.user }), { expires: 0.5 });
+          dispatch(userLoggedIn({ accessToken: result.data.data.token, user: result.data.data.user }));
+        } catch (err) {
+          // Keep the admin login form available after an invalid attempt.
+        }
+      },
+    }),
     // get me
     getUser: builder.query({
       query: () => "/api/user/me",
@@ -181,6 +197,7 @@ export const authApi = apiSlice.injectEndpoints({
 
 export const {
   useLoginUserMutation,
+  useAdminLoginMutation,
   useRegisterUserMutation,
   useConfirmEmailQuery,
   useResetPasswordMutation,

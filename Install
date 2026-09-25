@@ -1,1 +1,21 @@
 https://github.com/Hamed-Hasan/shofy-Beauty-and-Cosmetics-ecommerce-client
+
+BACKEND:
+Start-Service MongoDB
+Get-Service MongoDB
+
+Then seed and start the backend:
+cd "C:\Users\HSTPL_LAP_181\Desktop\Deccan_Project\React_Ecommerce\backend"
+npm run seed
+npm run dev
+
+
+FRONTEND:
+npm run build - for production build
+npm run dev - for local build
+
+
+BACKEND URL:
+http://localhost:3000/admin
+Username: admin
+Password: Dipl0mat@qa

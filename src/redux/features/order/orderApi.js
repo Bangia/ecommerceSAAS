@@ -22,6 +22,27 @@ export const authApi = apiSlice.injectEndpoints({
       },
 
     }),
+    initiatePaytmPayment: builder.mutation({
+      query: (data) => ({
+        url: "/api/order/paytm/initiate",
+        method: "POST",
+        body: data,
+      }),
+    }),
+    initiatePhonePePayment: builder.mutation({
+      query: (data) => ({
+        url: "/api/order/phonepe/initiate",
+        method: "POST",
+        body: data,
+      }),
+    }),
+    initiatePayUPayment: builder.mutation({
+      query: (data) => ({
+        url: "/api/order/payu/initiate",
+        method: "POST",
+        body: data,
+      }),
+    }),
     // saveOrder
     saveOrder: builder.mutation({
       query: (data) => ({
@@ -66,6 +87,9 @@ export const authApi = apiSlice.injectEndpoints({
 
 export const {
   useCreatePaymentIntentMutation,
+  useInitiatePaytmPaymentMutation,
+  useInitiatePhonePePaymentMutation,
+  useInitiatePayUPaymentMutation,
   useSaveOrderMutation,
   useGetUserOrderByIdQuery,
   useGetUserOrdersQuery,

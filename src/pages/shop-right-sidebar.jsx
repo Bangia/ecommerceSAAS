@@ -101,7 +101,7 @@ const ShopRightSidebarPage = ({ query }) => {
     // category filter
     if (query.category) {
       product_items = product_items.filter(
-        (p) => p.parent.toLowerCase().replace("&", "").split(" ").join("-") === query.category
+        (p) => String(p.category || "").toLowerCase().replace("&", "").split(" ").join("-") === query.category
       );
     }
 
@@ -120,7 +120,7 @@ const ShopRightSidebarPage = ({ query }) => {
 
     // brand filter
     if (query.brand) {
-      product_items = product_items.filter(p => p.brand.name.toLowerCase().replace("&", "").split(" ").join("-") === query.brand)
+      product_items = product_items.filter(p => String(p.brand || "").toLowerCase().replace("&", "").split(" ").join("-") === query.brand)
     }
 
     content = (

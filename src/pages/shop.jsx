@@ -101,7 +101,7 @@ const ShopPage = ({ query }) => {
     if (query.category) {
       product_items = product_items.filter(
         (p) =>
-          p.parent.toLowerCase().replace("&", "").split(" ").join("-") ===
+          String(p.category || "").toLowerCase().replace("&", "").split(" ").join("-") ===
           query.category
       );
     }
@@ -110,7 +110,7 @@ const ShopPage = ({ query }) => {
     if (query.subCategory) {
       product_items = product_items.filter(
         (p) =>
-          p.children.toLowerCase().replace("&", "").split(" ").join("-") ===
+          String(p.category || "").toLowerCase().replace("&", "").split(" ").join("-") ===
           query.subCategory
       );
     }
@@ -136,7 +136,7 @@ const ShopPage = ({ query }) => {
     if (query.brand) {
       product_items = product_items.filter(
         (p) =>
-          p.brand.name.toLowerCase().replace("&", "").split(" ").join("-") ===
+          String(p.brand || "").toLowerCase().replace("&", "").split(" ").join("-") ===
           query.brand
       );
     }
